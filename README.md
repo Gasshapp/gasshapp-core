@@ -60,6 +60,21 @@ yalc push
 | `npm run db:migrate` | Apply pending migrations |
 | `npm run db:studio` | Open Drizzle Studio |
 
+## Branch Strategy
+
+```
+feature/* ──→ dev ──→ staging ──→ main
+```
+
+| Branch | Purpose | Merges to |
+|--------|---------|-----------|
+| `feature/*` | Isolated work on a single feature | `dev` via PR |
+| `dev` | Integration branch — features come together here | `staging` via PR |
+| `staging` | CI runs automated tests, manual QA | `main` via PR |
+| `main` | Production-ready, published to consumers | deployed |
+
+Develop on feature branches, merge to `dev`. When ready for a release, merge `dev` → `staging` for testing, then `staging` → `main` for production. Never fix directly on `staging` — always fix on `dev` and re-merge.
+
 ## Tech
 
 - TypeScript (ESM, strict)
